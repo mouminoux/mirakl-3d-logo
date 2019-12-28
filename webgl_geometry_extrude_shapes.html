@@ -62,30 +62,30 @@
         light.position.copy(camera.position);
         scene.add(light);
 
-        //
+        var upSize = 120;
 
-        var closedSpline = new THREE.CatmullRomCurve3([
-            new THREE.Vector3(-60, -100, 60),
-            new THREE.Vector3(-60, 20, 60),
-            new THREE.Vector3(-60, 120, 60),
-            new THREE.Vector3(60, 20, -60)
+		let center = Math.sqrt(Math.pow(upSize, 2)-Math.pow(upSize/2, 2))/2;
+		var closedSpline = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(-upSize/2, center, 0),
+            new THREE.Vector3(upSize/2, center, 0),
+            new THREE.Vector3(0,  - center, 0)
         ]);
 
         closedSpline.curveType = 'catmullrom';
         closedSpline.closed = true;
 
         var extrudeSettings = {
-            steps: 100,
+            steps: 50,
             bevelEnabled: false,
             extrudePath: closedSpline
         };
 
 
-        var pts = [], count = 2;
+        var pts = [], count = 3;
 
         for (var i = 0; i < count; i++) {
 
-            var l = 20;
+            var l = -20;
 
             var a = 2 * i / count * Math.PI;
 
@@ -115,6 +115,16 @@
         renderer.render(scene, camera);
 
     }
+
+	function getPointOnCurve(t) {
+		const radians = 2 * Math.PI * t
+
+		return new THREE.Vector3(
+				this.radius * Math.cos(radians),
+				this.radius * Math.sin(radians),
+				this.radius * Math.cos(radians) * this.rotation
+		)
+	}
 
 </script>
 
