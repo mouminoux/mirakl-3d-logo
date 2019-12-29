@@ -1,3 +1,16 @@
+// function rotateShape(vector2, step, totalSteps) {
+//
+//     var rotationCount = 0;
+//     var size = 20;
+//
+//     var rX = Math.cos(step*rotationCount/totalSteps*Math.PI) *size;
+//     var rY = Math.sin(step*rotationCount/totalSteps*Math.PI) *size;
+//
+//     var verticeRotated = new Vector2(rX,rY);
+//     return vector2;
+// }
+import * as ROTATE from '../rotate.js';
+
 // Polyfills
 
 if ( Number.EPSILON === undefined ) {
@@ -30715,7 +30728,8 @@ function ExtrudeBufferGeometry( shapes, options ) {
 
 			for ( i = 0; i < vlen; i ++ ) {
 
-				vert = bevelEnabled ? scalePt2( vertices[ i ], verticesMovements[ i ], bs ) : vertices[ i ];
+                vert = bevelEnabled ? scalePt2( ROTATE.rotateShape(vertices[i], s, steps), verticesMovements[i], bs ) : ROTATE.rotateShape(vertices[i], s, steps);
+				//vert = bevelEnabled ? scalePt2( vertices[ i ], verticesMovements[ i ], bs ) : vertices[ i ];
 
 				if ( ! extrudeByPath ) {
 
