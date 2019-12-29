@@ -50,13 +50,13 @@
         scene.add(light);
 
 
-        var curvePoints = [];
-        curvePoints.push(new THREE.Vector3(-50, 50));
-        curvePoints.push(new THREE.Vector3(50, 50));
-        curvePoints.push(new THREE.Vector3(50, -50));
-        curvePoints.push(new THREE.Vector3(-50, -50));
+        // var curvePoints = [];
+        // curvePoints.push(new THREE.Vector3(-50, 50));
+        // curvePoints.push(new THREE.Vector3(50, 50));
+        // curvePoints.push(new THREE.Vector3(50, -50));
+        // curvePoints.push(new THREE.Vector3(-50, -50));
 
-        curvePoints = [];
+        var curvePoints = [];
         var upSize = 100;
         var center = Math.sqrt(Math.pow(upSize, 2) - Math.pow(upSize / 2, 2)) / 2;
 
@@ -79,19 +79,20 @@
         //square
         var pts = [];
         var size = 12;
-        var bewel = 1.5;
-        pts.push(new THREE.Vector2(-size, size - bewel));
-        pts.push(new THREE.Vector2(-size + bewel, size));
+        var bewel = 0.75;
+        pts.push(new THREE.Vector2(-size-bewel, size - bewel));
+        pts.push(new THREE.Vector2(-size + bewel, size+bewel));
 
-        pts.push(new THREE.Vector2(size - bewel, size));
-        pts.push(new THREE.Vector2(size, size - bewel));
+        pts.push(new THREE.Vector2(size - bewel, size+bewel));
+        pts.push(new THREE.Vector2(size+bewel, size - bewel));
 
 
-        pts.push(new THREE.Vector2(size, -size + bewel));
-        pts.push(new THREE.Vector2(size - bewel, -size));
+        pts.push(new THREE.Vector2(size+bewel, -size + bewel));
+        pts.push(new THREE.Vector2(size - bewel, -size-bewel));
 
-        pts.push(new THREE.Vector2(-size + bewel, -size));
-        pts.push(new THREE.Vector2(-size, -size + bewel));
+        pts.push(new THREE.Vector2(-size + bewel, -size-bewel));
+        pts.push(new THREE.Vector2(-size-bewel, -size + bewel));
+
         // var pts = [];
         // var size = 10;
         // pts.push(new THREE.Vector2(0, -size));
