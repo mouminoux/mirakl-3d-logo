@@ -26,24 +26,13 @@
     var camera, scene, renderer, controls;
 
     function init() {
-
-        var info = document.createElement('div');
-        info.style.position = 'absolute';
-        info.style.top = '10px';
-        info.style.width = '100%';
-        info.style.textAlign = 'center';
-        info.style.color = '#fff';
-        info.style.link = '#f80';
-        info.innerHTML = '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - geometry extrude shapes';
-        document.body.appendChild(info);
-
         renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
         scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x222222);
+        scene.background = new THREE.Color(0xffffff);
 
         camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.set(200, 200, 200);
@@ -54,7 +43,7 @@
         controls.minDistance = 200;
         controls.maxDistance = 500;
 
-        scene.add(new THREE.AmbientLight(0x222222));
+        scene.add(new THREE.AmbientLight(0x222));
 
         var light = new THREE.PointLight(0xffffff);
         light.position.copy(camera.position);
@@ -76,11 +65,12 @@
         curvePoints.push(new THREE.Vector3(0, -center, 0));
 
         var randomSpline = new THREE.CatmullRomCurve3(curvePoints);
-        //randomSpline.curveType = 'catmullrom';
+        randomSpline.curveType = 'catmullrom';
+        randomSpline.tension = 0.75;
         randomSpline.closed = true;
 
         var extrudeSettings = {
-            steps: 2000,
+            steps: 1000,
             bevelEnabled: false,
             extrudePath: randomSpline,
         };
@@ -89,19 +79,19 @@
         //square
         var pts = [];
         var size = 12;
-        var bewel = .5;
-        pts.push(new THREE.Vector2(-size, size-bewel));
-        pts.push(new THREE.Vector2(-size+bewel, size));
+        var bewel = 1.5;
+        pts.push(new THREE.Vector2(-size, size - bewel));
+        pts.push(new THREE.Vector2(-size + bewel, size));
 
-        pts.push(new THREE.Vector2(size-bewel, size));
-        pts.push(new THREE.Vector2(size, size-bewel));
+        pts.push(new THREE.Vector2(size - bewel, size));
+        pts.push(new THREE.Vector2(size, size - bewel));
 
 
-        pts.push(new THREE.Vector2(size, -size+bewel));
-        pts.push(new THREE.Vector2(size-bewel, -size));
+        pts.push(new THREE.Vector2(size, -size + bewel));
+        pts.push(new THREE.Vector2(size - bewel, -size));
 
-        pts.push(new THREE.Vector2(-size+bewel, -size));
-        pts.push(new THREE.Vector2(-size, -size+bewel));
+        pts.push(new THREE.Vector2(-size + bewel, -size));
+        pts.push(new THREE.Vector2(-size, -size + bewel));
         // var pts = [];
         // var size = 10;
         // pts.push(new THREE.Vector2(0, -size));
@@ -112,7 +102,7 @@
 
         var geometry = new THREE.ExtrudeBufferGeometry(shape, extrudeSettings);
 
-        var material2 = new THREE.MeshLambertMaterial({color: 0xff8000, wireframe: false});
+        var material2 = new THREE.MeshLambertMaterial({color: 0x3d5468, wireframe: false});
 
         var mesh = new THREE.Mesh(geometry, material2);
 
