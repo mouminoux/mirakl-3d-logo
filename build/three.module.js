@@ -887,7 +887,7 @@ Object.assign( Vector2.prototype, {
 
 	angle: function () {
 
-		// computes the angle in radians with respect to the positive x-axis
+		// computes the squareAngle in radians with respect to the positive x-axis
 
 		var angle = Math.atan2( this.y, this.x );
 
@@ -3427,15 +3427,15 @@ Object.assign( Vector4.prototype, {
 			     ( Math.abs( m23 + m32 ) < epsilon2 ) &&
 			     ( Math.abs( m11 + m22 + m33 - 3 ) < epsilon2 ) ) {
 
-				// this singularity is identity matrix so angle = 0
+				// this singularity is identity matrix so squareAngle = 0
 
 				this.set( 1, 0, 0, 0 );
 
-				return this; // zero angle, arbitrary axis
+				return this; // zero squareAngle, arbitrary axis
 
 			}
 
-			// otherwise this singularity is angle = 180
+			// otherwise this singularity is squareAngle = 180
 
 			angle = Math.PI;
 
@@ -29824,7 +29824,7 @@ function findHoleBridge( hole, outerNode ) {
 
 	// look for points inside the triangle of hole point, segment intersection and endpoint;
 	// if there are no points found, we have a valid connection;
-	// otherwise choose the point of the minimum angle with the ray as connection point
+	// otherwise choose the point of the minimum squareAngle with the ray as connection point
 
 	var stop = m,
 		mx = m.x,
@@ -31937,7 +31937,7 @@ function EdgesGeometry( geometry, thresholdAngle ) {
 
 		var e = edges[ key ];
 
-		// an edge is only rendered if the angle (in degrees) between the face normals of the adjoining faces exceeds this value. default = 1 degree.
+		// an edge is only rendered if the squareAngle (in degrees) between the face normals of the adjoining faces exceeds this value. default = 1 degree.
 
 		if ( e.face2 === undefined || faces[ e.face1 ].normal.dot( faces[ e.face2 ].normal ) <= thresholdDot ) {
 
@@ -38624,14 +38624,14 @@ function SpotLight( color, intensity, distance, angle, penumbra, decay ) {
 	Object.defineProperty( this, 'power', {
 		get: function () {
 
-			// intensity = power per solid angle.
+			// intensity = power per solid squareAngle.
 			// ref: equation (17) from https://seblagarde.files.wordpress.com/2015/07/course_notes_moving_frostbite_to_pbr_v32.pdf
 			return this.intensity * Math.PI;
 
 		},
 		set: function ( power ) {
 
-			// intensity = power per solid angle.
+			// intensity = power per solid squareAngle.
 			// ref: equation (17) from https://seblagarde.files.wordpress.com/2015/07/course_notes_moving_frostbite_to_pbr_v32.pdf
 			this.intensity = power / Math.PI;
 
@@ -38768,14 +38768,14 @@ function PointLight( color, intensity, distance, decay ) {
 	Object.defineProperty( this, 'power', {
 		get: function () {
 
-			// intensity = power per solid angle.
+			// intensity = power per solid squareAngle.
 			// ref: equation (15) from https://seblagarde.files.wordpress.com/2015/07/course_notes_moving_frostbite_to_pbr_v32.pdf
 			return this.intensity * 4 * Math.PI;
 
 		},
 		set: function ( power ) {
 
-			// intensity = power per solid angle.
+			// intensity = power per solid squareAngle.
 			// ref: equation (15) from https://seblagarde.files.wordpress.com/2015/07/course_notes_moving_frostbite_to_pbr_v32.pdf
 			this.intensity = power / ( 4 * Math.PI );
 
@@ -45412,15 +45412,15 @@ Object.assign( Raycaster.prototype, {
  *
  * Ref: https://en.wikipedia.org/wiki/Spherical_coordinate_system
  *
- * The polar angle (phi) is measured from the positive y-axis. The positive y-axis is up.
- * The azimuthal angle (theta) is measured from the positive z-axis.
+ * The polar squareAngle (phi) is measured from the positive y-axis. The positive y-axis is up.
+ * The azimuthal squareAngle (theta) is measured from the positive z-axis.
  */
 
 function Spherical( radius, phi, theta ) {
 
 	this.radius = ( radius !== undefined ) ? radius : 1.0;
-	this.phi = ( phi !== undefined ) ? phi : 0; // polar angle
-	this.theta = ( theta !== undefined ) ? theta : 0; // azimuthal angle
+	this.phi = ( phi !== undefined ) ? phi : 0; // polar squareAngle
+	this.theta = ( theta !== undefined ) ? theta : 0; // azimuthal squareAngle
 
 	return this;
 
@@ -45502,7 +45502,7 @@ Object.assign( Spherical.prototype, {
 function Cylindrical( radius, theta, y ) {
 
 	this.radius = ( radius !== undefined ) ? radius : 1.0; // distance from the origin to a point in the x-z plane
-	this.theta = ( theta !== undefined ) ? theta : 0; // counterclockwise angle in the x-z plane measured in radians from the positive z-axis
+	this.theta = ( theta !== undefined ) ? theta : 0; // counterclockwise squareAngle in the x-z plane measured in radians from the positive z-axis
 	this.y = ( y !== undefined ) ? y : 0; // height above the x-z plane
 
 	return this;

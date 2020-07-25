@@ -7,7 +7,7 @@
     <style>
         body {
             background-color: #fff;
-            background-image: url("https://s3-eu-west-1.amazonaws.com/clientsassets/digischool/alternance/prod/company/1567076098.png");
+            background-image: url("https://www.ueberbit.de/sites/default/files/styles/full_scale_w/public/2018-02/logo-mirakl-white-horizontal.png?itok=1fY39lOR");
             background-repeat: no-repeat;
             background-position-x: left;
             background-position-y: center;
@@ -30,7 +30,13 @@
 
     var camera, scene, mesh, renderer, controls, light;
 
-    var catmullromTension = 0.75;
+
+    var squareAngle = 1.6;//0.2;//Math.PI / 3;
+    var catmullromTension = 0.85;
+    var decalSizeFactor = 0;
+    var sizeFactor1 = 14;
+    var sizeFactor2 = 15;
+
 
     function addMesh() {
         var curvePoints = [];
@@ -58,12 +64,15 @@
 
                 var angle = 0;
 
+                // if (percent < 0.1)
+                //     squareAngle = Math.PI * 0.05;
+                // else
                 angle = rotationCount * percent;
 
-                //var angleFactor = Math.cos(Math.PI * (percent) * 3 * 2 + Math.PI / 2);
-                //angle += angleFactor * Math.PI / 16;
+                var angleFactor = Math.cos(Math.PI * (percent + 0.5) * 3 * 2 + Math.PI / 2);
+                angle += angleFactor * Math.PI / 16;
 
-                //angle = 0;
+                //squareAngle = 0;
 
                 let x = vector2.x;
                 let y = vector2.y;
@@ -76,7 +85,7 @@
                 var rY = Math.sin(angle) * x + Math.cos(angle) * y;
 
                 //square size
-                var sizeFactor = (Math.sin(Math.PI * (percent) * 3 * 2 + 2 / 3 * Math.PI) + 9) / 10;
+                var sizeFactor = (Math.sin(Math.PI * (percent) * 3 * 2 + 2 / 3 * Math.PI) + sizeFactor1) / sizeFactor2;
                 rX *= sizeFactor;
                 rY *= sizeFactor;
 
@@ -90,7 +99,7 @@
         //square
         var pts = [];
         var size = 17;
-        var bewel = 0.75;
+        var bewel = 0;//0.75;
         pts.push(testRotate(-size - bewel, size - bewel));
         pts.push(testRotate(-size + bewel, size + bewel));
 
@@ -117,7 +126,7 @@
         var material = new THREE.MeshLambertMaterial({
             color: 0x3d5468,
             wireframe: false,
-            opacity: 1.0,
+            opacity: 1,//0.7,
             transparent: true
         });
 
@@ -138,10 +147,10 @@
         camera.position.set(0, 0, 300);
         camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-        /*camera = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, 1, 2000);
+        camera = new THREE.OrthographicCamera(window.innerWidth / -5, window.innerWidth / 5, window.innerHeight / 5, window.innerHeight / -5, 1, 2000);
         //camera.position.set(200, 200, 200);
         camera.position.set(0, 0, 200);
-        camera.lookAt(new THREE.Vector3(0, 0, 0));*/
+        camera.lookAt(new THREE.Vector3(0, 0, 0));
 
         controls = new TrackballControls(camera, renderer.domElement);
         controls.minDistance = 100;
@@ -171,12 +180,11 @@
         // scene.add(axesHelper);
     }
 
-    var angle = 0.2;//Math.PI / 3;
 
     function testRotate(x, y) {
-        //var angle = Math.PI / 3;
-        var rX = Math.cos(angle) * x - Math.sin(angle) * y;
-        var rY = Math.sin(angle) * x + Math.cos(angle) * y;
+        //var squareAngle = Math.PI / 3;
+        var rX = Math.cos(squareAngle) * x - Math.sin(squareAngle) * y;
+        var rY = Math.sin(squareAngle) * x + Math.cos(squareAngle) * y;
 
         return new THREE.Vector2(rX, rY);
     }
@@ -197,9 +205,9 @@
     init();
     animate();
 
-    document.getElementById("angle").addEventListener("change", function () {
+    document.getElementById("squareAngle").addEventListener("change", function () {
         console.log(this.value);
-        angle = this.value;
+        squareAngle = this.value;
         scene.remove(mesh);
         addMesh();
     });
@@ -210,10 +218,31 @@
         scene.remove(mesh);
         addMesh();
     });
+    document.getElementById("decalSizeFactor").addEventListener("change", function () {
+        console.log(this.value);
+        decalSizeFactor = this.value;
+        scene.remove(mesh);
+        addMesh();
+    });
+    document.getElementById("sizeFactor1").addEventListener("change", function () {
+        console.log(this.value);
+        sizeFactor1 = parseInt(this.value, 10);
+        scene.remove(mesh);
+        addMesh();
+    });
+    document.getElementById("sizeFactor2").addEventListener("change", function () {
+        console.log(this.value);
+        sizeFactor2 = parseInt(this.value, 10);
+        scene.remove(mesh);
+        addMesh();
+    });
 
 </script>
-Square angle: <input id="angle" type="range" min="0" max="6.29" step="0.1" value="0"/><br/>
-catmullromTension: <input id="catmullromTension" type="range" min="0" max="1" step="0.05" value="0"/>
+Square angle: <input id="squareAngle" type="range" min="0" max="6.29" step="0.1" value="0"/><br/>
+catmullromTension: <input id="catmullromTension" type="range" min="0" max="1" step="0.05" value="0"/><br/>
+decalSizeFactor: <input id="decalSizeFactor" type="range" min="0" max="1" step="0.01" value="0"/><br/>
+sizeFactor1: <input id="sizeFactor1" type="range" min="0" max="30" step="1" value="14"/><br/>
+sizeFactor2: <input id="sizeFactor2" type="range" min="0" max="30" step="1" value="15"/><br/>
 </body>
 
 </html>
